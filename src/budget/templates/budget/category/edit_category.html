@@ -1,0 +1,12 @@
+{% extends 'budget/category/category.html' %}
+
+{% block category_operation_title %}
+  <h1>Edit category</h1>
+{% endblock %}
+
+{% block category_operation %}
+  <input class="btn btn-primary" type="submit" value="Edit" />
+  <a class="btn btn-danger" href="{% url 'budget:delete_category' category.slug %}">
+    Delete
+  </a>
+{% endblock %}

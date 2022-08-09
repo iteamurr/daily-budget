@@ -1,0 +1,86 @@
+{% extends 'budget/base.html' %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center">
+  <h1>Categories</h1>
+  <a
+    class="btn btn-primary d-flex align-items-center"
+    href="{% url 'budget:add_category' %}"
+  >
+    <span class="material-symbols-outlined">add</span>
+    Add category
+  </a>
+</div>
+<form class="row" method="GET">
+  <div class="col-lg-7 col-sm-6 col-12">
+    <label for="{{ filter.form.name.id_for_label }}"
+      >{{ filter.form.name.label }}:</label
+    >
+    <input
+      type="text"
+      class="form-control"
+      id="{{ filter.form.name.id_for_label }}"
+      name="{{ filter.form.name.html_name }}"
+      placeholder="Search by {{ filter.form.name.label }}"
+      {% if filter.form.name.value != None %}
+      value="{{ filter.form.name.value }}"
+      {% endif %}
+    />
+  </div>
+  <div class="col-lg-4 col-sm-4 col-9">
+    <label for="{{ filter.form.ordering.id_for_label }}"
+      >{{ filter.form.ordering.label }}:</label
+    >
+    <select
+      class="form-select"
+      id="{{ filter.form.ordering.id_for_label }}"
+      name="{{ filter.form.ordering.html_name }}"
+      onchange="this.form.submit()"
+    >
+      {% for item in filter.form.ordering %}
+      <option
+        value="{{ item.data.value }}"
+        {% if item.data.selected %}
+        selected
+        {% endif %}
+      >
+        {{ item.data.label }}
+      </option>
+      {% endfor %}
+    </select>
+  </div>
+  <div class="col-lg-1 col-sm-2 col-3">
+    <label>Search:</label>
+    <button type="submit" class="form-control btn btn-outline-secondary">
+      <span
+        class="material-symbols-outlined d-flex justify-content-center align-items-center"
+        >search</span
+      >
+    </button>
+  </div>
+</form>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Items</th>
+      <th scope="col" class="text-end">Edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for category in filter.qs %}
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      <td>{{ category.name }}</td>
+      <td>{{ category.num }}</td>
+      <td class="text-end">
+        <a class="btn btn-outline-secondary" href="{% url 'budget:edit_category' category.slug %}">
+          <span class="material-symbols-outlined">edit</span>
+        </a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
