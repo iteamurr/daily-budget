@@ -1,0 +1,12 @@
+{% extends 'budget/item/item.html' %}
+
+{% block item_operation_title %}
+  <h1>Edit item</h1>
+{% endblock %}
+
+{% block item_operation %}
+  <input class="btn btn-success" type="submit" value="Done" />
+  <a class="btn btn-danger" href="{% url 'budget:delete_item' item.pk %}">
+    Delete
+  </a>
+{% endblock %}
