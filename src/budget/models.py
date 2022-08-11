@@ -1,10 +1,12 @@
 from django.db import models
 from django.utils.text import slugify
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(max_length=40, unique=True)
+    name = models.CharField(max_length=100)
+    slug = models.SlugField(max_length=40)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -16,6 +18,7 @@ class Category(models.Model):
     class Meta:
         db_table = "Category"
         verbose_name_plural = "Categories"
+        unique_together = "slug", "user"
 
 
 class Item(models.Model):
@@ -23,6 +26,7 @@ class Item(models.Model):
     cost = models.DecimalField(max_digits=19, decimal_places=2)
     date = models.DateTimeField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
         return self.title

@@ -1,17 +1,24 @@
 from datetime import datetime
 from django import forms
-from django.utils.text import slugify
 from django.core.exceptions import ValidationError
+from django.utils.text import slugify
 
-from .models import Category, Item
+from .models import Category
+from .models import Item
 
 
 class CategoryForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user")
+        super(CategoryForm, self).__init__(*args, **kwargs)
+
+        self.fields["name"].queryset = Category.objects.filter(user=self.user)
+
     def clean(self):
         cleaned_data = super(CategoryForm, self).clean()
 
         slug = slugify(cleaned_data.get("name"))
-        exists = Category.objects.filter(slug=slug).exists()
+        exists = self.fields["name"].queryset.filter(slug=slug).exists()
 
         if exists:
             raise ValidationError("A similar name already exists.")
@@ -31,9 +38,11 @@ class ItemForm(forms.ModelForm):
     )
 
     def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop("user")
         super(ItemForm, self).__init__(*args, **kwargs)
 
-        if "instance" in kwargs:
+        self.fields["category"].queryset = Category.objects.filter(user=self.user)
+        if "instance" in kwargs and kwargs["instance"]:
             self.fields["time"].initial = kwargs["instance"].date.time()
 
     def save(self, commit=True):
