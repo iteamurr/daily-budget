@@ -13,31 +13,31 @@
 </div>
 <form class="row" method="GET">
   <div class="col-lg-7 col-sm-6 col-12">
-    <label for="{{ filter.form.name.id_for_label }}"
-      >{{ filter.form.name.label }}:</label
+    <label for="{{ form.name.id_for_label }}"
+      >{{ form.name.label }}:</label
     >
     <input
       type="text"
       class="form-control"
-      id="{{ filter.form.name.id_for_label }}"
-      name="{{ filter.form.name.html_name }}"
-      placeholder="Search by {{ filter.form.name.label }}"
-      {% if filter.form.name.value != None %}
-      value="{{ filter.form.name.value }}"
+      id="{{ form.name.id_for_label }}"
+      name="{{ form.name.html_name }}"
+      placeholder="Search by {{ form.name.label }}"
+      {% if form.name.value != None %}
+      value="{{ form.name.value }}"
       {% endif %}
     />
   </div>
   <div class="col-lg-4 col-sm-4 col-9">
-    <label for="{{ filter.form.ordering.id_for_label }}"
-      >{{ filter.form.ordering.label }}:</label
+    <label for="{{ form.ordering.id_for_label }}"
+      >{{ form.ordering.label }}:</label
     >
     <select
       class="form-select"
-      id="{{ filter.form.ordering.id_for_label }}"
-      name="{{ filter.form.ordering.html_name }}"
+      id="{{ form.ordering.id_for_label }}"
+      name="{{ form.ordering.html_name }}"
       onchange="this.form.submit()"
     >
-      {% for item in filter.form.ordering %}
+      {% for item in form.ordering %}
       <option
         value="{{ item.data.value }}"
         {% if item.data.selected %}
@@ -69,7 +69,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for category in filter.qs %}
+    {% for category in categories %}
     <tr>
       <th scope="row">{{ forloop.counter }}</th>
       <td>{{ category.name }}</td>
@@ -83,4 +83,7 @@
     {% endfor %}
   </tbody>
 </table>
+{% block pagination %}
+  {% include './_blocks/pagination.html' %}
+{% endblock %}
 {% endblock %}

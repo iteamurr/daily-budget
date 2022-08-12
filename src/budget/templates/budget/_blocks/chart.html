@@ -9,23 +9,11 @@
     var myChart = new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels: [
-          {% for item in lists.chart %}
-            {% if item.sum != None %}
-              '{{ item }}',
-            {% endif %}
-          {% endfor %}
-        ],
+        labels: {{ lists.labels|safe }},
         datasets: [
           {
             label: "# of items",
-            data: [
-              {% for item in lists.chart %}
-                {% if item.sum != None %}
-                  {{ item.sum }},
-                {% endif %}
-              {% endfor %}
-            ],
+            data: {{ lists.data|safe }},
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',

@@ -17,7 +17,7 @@
         <ul class="list-group">
           {% for category in lists.categories %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              {{ category.name }}
+              {{ category.name|truncatechars:25 }}
               <span class="badge bg-primary">{{ category.num }}</span>
             </li>
           {% endfor %}
@@ -43,8 +43,11 @@
         <ul class="list-group">
           {% for item in lists.items %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              {{ item.title }}
-              <span class="badge bg-primary">{{ item.cost|intcomma }} ₽</span>
+              <div class="row">
+                <div class="col-12">{{ item.title|truncatechars:23 }}</div>
+                <small class="col-12 text-secondary">{{ item.category.name|truncatechars:25 }}</small>
+              </div>
+              <span class="badge bg-success">{{ item.cost|intcomma }} ₽</span>
             </li>
           {% endfor %}
         </ul>
@@ -58,13 +61,11 @@
   <div class="col">
     <h1>Chart</h1>
     {% if lists %}
-      {% if lists.chart %}
-        {% if lists.chart %}
-          {% block chart %}
-            {% include './_blocks/chart.html' %}
-          {% endblock %}
-          <canvas class="chart"></canvas>
-        {% endif %}
+      {% if lists.labels and lists.data %}
+        {% block chart %}
+          {% include './_blocks/chart.html' %}
+        {% endblock %}
+        <canvas class="chart"></canvas>
       {% else %}
         <p>Add some categories and items.</p>
       {% endif %}

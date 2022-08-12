@@ -4,7 +4,6 @@ from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Count
-from django.db.models import Sum
 
 from .models import Category
 from .models import Item
@@ -12,44 +11,30 @@ from .forms import CategoryForm
 from .forms import ItemForm
 from .filters import CategoryFilter
 from .filters import ItemFilter
+from .services import CustomListView
+from .services import get_index_page_lists
 
 
 class BudgetView(LoginRequiredMixin, ListView):
     template_name: str = "budget/index.html"
-    context_object_name: str = "lists"
     login_url: str = "/login/"
+    context_object_name: str = "lists"
 
     def get_queryset(self):
-        categories = (
-            Category.objects.filter(user=self.request.user)
-            .annotate(num=Count("item"))
-            .only("name")
-            .order_by("-num")[:5]
-        )
-        items = (
-            Item.objects.filter(user=self.request.user)
-            .only("title", "cost")
-            .order_by("-date")[:5]
-        )
-        chart = (
-            Category.objects.filter(user=self.request.user)
-            .annotate(sum=Sum("item__cost"))
-            .only("name")
-            .order_by("-item__cost")[:10]
-        )
-        return dict(categories=categories, items=items, chart=chart)
+        return get_index_page_lists(self.request.user)
 
 
-class CategoriesView(LoginRequiredMixin, ListView):
+class CategoriesView(LoginRequiredMixin, CustomListView):
     model = Category
+    filter_for_pagination = CategoryFilter
+    paginate_by: int = 5
     template_name: str = "budget/categories.html"
     login_url: str = "/login/"
+    context_object_name: str = "categories"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filter"] = CategoryFilter(
-            self.request.GET, queryset=self.get_queryset()
-        )
+        context = self.get_filtered_and_paginated_data(context)
         return context
 
     def get_queryset(self):
@@ -58,6 +43,7 @@ class CategoriesView(LoginRequiredMixin, ListView):
             .get_queryset()
             .filter(user=self.request.user)
             .annotate(num=Count("item"))
+            .order_by("id")
         )
         return queryset
 
@@ -111,18 +97,21 @@ class CategoryDeleteView(LoginRequiredMixin, DeleteView):
         return context
 
 
-class ItemsView(LoginRequiredMixin, ListView):
+class ItemsView(LoginRequiredMixin, CustomListView):
     model = Item
+    filter_for_pagination = ItemFilter
+    paginate_by: int = 10
     template_name: str = "budget/items.html"
     login_url: str = "/login/"
+    context_object_name: str = "items"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filter"] = ItemFilter(self.request.GET, queryset=self.get_queryset())
+        context = self.get_filtered_and_paginated_data(context)
         return context
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(user=self.request.user)
+        queryset = super().get_queryset().filter(user=self.request.user).order_by("-date")
         return queryset
 
 

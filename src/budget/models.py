@@ -4,8 +4,8 @@ from django.contrib.auth.models import User
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=40)
+    name = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=50)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
@@ -22,7 +22,7 @@ class Category(models.Model):
 
 
 class Item(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=72)
     cost = models.DecimalField(max_digits=19, decimal_places=2)
     date = models.DateTimeField()
     category = models.ForeignKey(Category, on_delete=models.CASCADE)

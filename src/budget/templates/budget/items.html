@@ -1,4 +1,5 @@
 {% extends 'budget/base.html' %}
+{% load humanize %}
 
 {% block content %}
 <div class="d-flex justify-content-between align-items-center">
@@ -14,46 +15,46 @@
 
 <form class="row" method="GET">
   <div class="col-lg-4 col-sm-6 col-12">
-    <label for="{{ filter.form.title.id_for_label }}"
-      >{{ filter.form.title.label }}:</label
+    <label for="{{ form.title.id_for_label }}"
+      >{{ form.title.label }}:</label
     >
     <input
       type="text"
       class="form-control"
-      id="{{ filter.form.title.id_for_label }}"
-      name="{{ filter.form.title.html_name }}"
-      placeholder="Search by {{ filter.form.title.label }}"
-      {% if filter.form.title.value != None %}
-      value="{{ filter.form.title.value }}"
+      id="{{ form.title.id_for_label }}"
+      name="{{ form.title.html_name }}"
+      placeholder="Search by {{ form.title.label }}"
+      {% if form.title.value != None %}
+      value="{{ form.title.value }}"
       {% endif %}
     />
   </div>
   <div class="col-lg-4 col-sm-6 col-12">
-    <label for="{{ filter.form.category.id_for_label }}"
-      >{{ filter.form.category.label }}:</label
+    <label for="{{ form.category.id_for_label }}"
+      >{{ form.category.label }}:</label
     >
     <input
       type="text"
       class="form-control"
-      id="{{ filter.form.category.id_for_label }}"
-      name="{{ filter.form.category.html_name }}"
-      placeholder="Search by {{ filter.form.category.label }}"
-      {% if filter.form.category.value != None %}
-      value="{{ filter.form.category.value }}"
+      id="{{ form.category.id_for_label }}"
+      name="{{ form.category.html_name }}"
+      placeholder="Search by {{ form.category.label }}"
+      {% if form.category.value != None %}
+      value="{{ form.category.value }}"
       {% endif %}
     />
   </div>
   <div class="col-lg-3 col-sm-10 col-9">
-    <label for="{{ filter.form.ordering.id_for_label }}"
-      >{{ filter.form.ordering.label }}:</label
+    <label for="{{ form.ordering.id_for_label }}"
+      >{{ form.ordering.label }}:</label
     >
     <select
       class="form-select"
-      id="{{ filter.form.ordering.id_for_label }}"
-      name="{{ filter.form.ordering.html_name }}"
+      id="{{ form.ordering.id_for_label }}"
+      name="{{ form.ordering.html_name }}"
       onchange="this.form.submit()"
     >
-      {% for item in filter.form.ordering %}
+      {% for item in form.ordering %}
         <option
           value="{{ item.data.value }}"
           {% if item.data.selected %}
@@ -88,13 +89,13 @@
     </tr>
   </thead>
   <tbody>
-    {% for item in filter.qs %}
+    {% for item in items %}
     <tr>
       <th scope="row">{{ forloop.counter }}</th>
       <td>{{ item.date|date:"Y M d H:i" }}</td>
-      <td>{{ item.title }}</td>
-      <td>{{ item.cost }} ₽</td>
-      <td>{{ item.category }}</td>
+      <td>{{ item.title|truncatechars:25 }}</td>
+      <td>{{ item.cost|intcomma }} ₽</td>
+      <td>{{ item.category|truncatechars:25 }}</td>
       <td class="text-end">
         <a
           class="btn btn-outline-secondary"
@@ -107,4 +108,7 @@
     {% endfor %}
   </tbody>
 </table>
+{% block pagination %}
+  {% include './_blocks/pagination.html' %}
+{% endblock %}
 {% endblock %}
