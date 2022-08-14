@@ -41,6 +41,8 @@ def beautify_chart_data(data):
         else:
             chart[category.name] = float(category.sum)
 
+    chart = dict(sorted(chart.items(), key=lambda x: x[1], reverse=True))
+
     if other:
         chart["Other"] = other
 
