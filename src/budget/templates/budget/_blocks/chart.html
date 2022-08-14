@@ -9,11 +9,11 @@
     var myChart = new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels: {{ lists.labels|safe }},
+        labels: [{% for label in lists.chart.keys %} "{{ label }}", {% endfor %}],
         datasets: [
           {
             label: "# of items",
-            data: {{ lists.data|safe }},
+            data: [{% for data in lists.chart.values %} {{ data }}, {% endfor %}],
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
                 'rgba(54, 162, 235, 0.2)',
@@ -33,6 +33,13 @@
             borderWidth: 1,
           },
         ],
+      },
+      options: {
+        plugins: {
+          legend: {
+            display: false
+          }
+        }
       }
     });
   });

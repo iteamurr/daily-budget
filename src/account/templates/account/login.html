@@ -1,9 +1,14 @@
 {% extends 'account/base.html' %}
+{% load static %}
+
+{% block account_operation_img %}
+  <img src="{% static 'budget/images/svg/scenes/money.svg' %}">
+{% endblock %}
 
 {% block account_operation_title %}
   <h1>Login to your account</h1>
 {% endblock %}
 
 {% block account_operation %}
-  <input class="btn btn-primary" type="submit" value="Login">
+  <input class="form__submit" type="submit" value="Login">
 {% endblock %}

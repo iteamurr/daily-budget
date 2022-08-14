@@ -1,36 +1,47 @@
 {% extends 'budget/base.html' %}
 
 {% block content %}
-<div class="row">
-  <div class="col">
-    {% block category_operation_title %}
-    {% endblock %}
-    <form method="post">
-      {% csrf_token %}
-      {% if form.non_field_errors %}
-        {% for error in form.non_field_errors %}
-          <div class="alert alert-warning" role="alert">
-            {{ error|escape }}
-          </div>
-        {% endfor %}
-      {% endif %}
-      {% for field in form %}
-        {% if field.errors and not form.non_field_errors %}
-          {% for error in field.errors %}
-            <div class="alert alert-danger" role="alert">
+<div class="category-page">
+  <div class="container form-container">
+    <div class="form-container__picture">
+      {% block category_operation_picture %}
+      {% endblock %}
+    </div>
+    <div class="form-container__content">
+      {% block category_operation_title %}
+      {% endblock %}
+
+      <form class="form" method="post">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          {% for error in form.non_field_errors %}
+            <div class="form-warning">
               {{ error|escape }}
             </div>
           {% endfor %}
         {% endif %}
-        <p>
-          {{ field.label_tag }}
-          {{ field }}
-        </p>
-      {% endfor %}
-      <a class="btn btn-outline-secondary" href="{% url 'budget:categories' %}">Cancel</a>
-      {% block category_operation %}
-      {% endblock %}
-    </form>
+
+        {% for field in form %}
+          {% if field.errors and not form.non_field_errors %}
+            {% for error in field.errors %}
+              <div class="form-alert">
+                {{ error|escape }}
+              </div>
+            {% endfor %}
+          {% endif %}
+          <div class="form__elem">
+            {{ field.label_tag }}
+            {{ field }}
+          </div>
+        {% endfor %}
+
+        <div class="form-buttons">
+          <a class="calm-btn" href="{% url 'budget:categories' %}">Cancel</a>
+          {% block category_operation %}
+          {% endblock %}
+        </div>
+      </form>
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -21,7 +21,7 @@ class BudgetView(LoginRequiredMixin, ListView):
     context_object_name: str = "lists"
 
     def get_queryset(self):
-        return get_index_page_lists(self.request.user)
+        return get_index_page_lists(self.request.user, 9, 5)
 
 
 class CategoriesView(LoginRequiredMixin, CustomListView):
@@ -96,6 +96,10 @@ class CategoryDeleteView(LoginRequiredMixin, DeleteView):
         )
         return context
 
+    def get_queryset(self):
+        queryset = super().get_queryset().filter(user=self.request.user)
+        return queryset
+
 
 class ItemsView(LoginRequiredMixin, CustomListView):
     model = Item
@@ -111,7 +115,9 @@ class ItemsView(LoginRequiredMixin, CustomListView):
         return context
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(user=self.request.user).order_by("-date")
+        queryset = (
+            super().get_queryset().filter(user=self.request.user).order_by("-date")
+        )
         return queryset
 
 

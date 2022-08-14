@@ -1,48 +1,48 @@
 {% extends 'budget/base.html' %}
 
 {% block content %}
-<div class="row">
-  <div class="col-12">
-    {% block item_operation_title %}
-    {% endblock %}
-    <form class="row g-3 needs-validation" method="post" novalidate>
-      {% csrf_token %}
-      {% if form.non_field_errors %}
-        {% for error in form.non_field_errors %}
-          <div class="alert alert-warning" role="alert">
-            {{ error|escape }}
+<div class="item-page">
+  <div class="container form-container">
+    <div class="form-container__picture">
+      {% block item_operation_picture %}
+      {% endblock %}
+    </div>
+    <div class="form-container__content">
+      {% block item_operation_title %}
+      {% endblock %}
+
+      <form class="form" method="post">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+          {% for error in form.non_field_errors %}
+            <div class="form-warning">
+              {{ error|escape }}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        {% for field in form %}
+          <div class="form__elem">
+            {{ field.label_tag }}
+            {{ field }}
+
+            {% if field.errors and not form.non_field_errors %}
+              {% for error in field.errors %}
+                <div class="form-alert">
+                  <small>{{ error|escape }}</small>
+                </div>
+              {% endfor %}
+            {% endif %}
           </div>
         {% endfor %}
-      {% endif %}
-      {% for field in form %}
-      <div
-        class="{% if field.name == "time" or field.name == "date" %}
-                 col-md-3 col-6
-               {% else %}
-                 col-md-6 col-12
-               {% endif %}"
-      >
-          {{ field.label_tag }}
-          {{ field }}
-          {% if field.errors and not form.non_field_errors %}
-            {% for error in field.errors %}
-              <div class="text-danger">
-                <small>{{ error|escape }}</small>
-              </div>
-            {% endfor %}
-          {% else %}
-            <div class="valid-feedback">
-              Looks good!
-            </div>
-          {% endif %}
+
+        <div class="form-buttons">
+          <a class="calm-btn" href="{% url 'budget:items' %}">Cancel</a>
+          {% block item_operation %}
+          {% endblock %}
         </div>
-      {% endfor %}
-      <div class="col">
-        <a class="btn btn-outline-secondary" href="{% url 'budget:items' %}">Cancel</a>
-        {% block item_operation %}
-        {% endblock %}
-      </div>
-    </form>
+      </form>
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -1,12 +1,17 @@
 {% extends 'budget/item/item.html' %}
+{% load static %}
+
+{% block item_operation_picture %}
+  <img src="{% static 'budget/images/svg/scenes/options.svg' %}">
+{% endblock %}
 
 {% block item_operation_title %}
   <h1>Edit item</h1>
 {% endblock %}
 
 {% block item_operation %}
-  <input class="btn btn-success" type="submit" value="Done" />
-  <a class="btn btn-danger" href="{% url 'budget:delete_item' item.pk %}">
+  <input class="form__submit" type="submit" value="Done" />
+  <a class="call-to-action-btn" href="{% url 'budget:delete_item' item.pk %}">
     Delete
   </a>
 {% endblock %}

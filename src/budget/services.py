@@ -18,15 +18,12 @@ def get_index_page_lists(
         .order_by("-num")[:max_categories_list_len]
     )
     items = Item.objects.filter(user=user).order_by("-date")[:max_items_list_len]
-    labels, data = map(
-        list,
-        beautify_chart_data(
-            Category.objects.filter(user=user)
-            .annotate(sum=Sum("item__cost"))
-            .order_by("-item__cost")
-        ),
+    chart, total = beautify_chart_data(
+        Category.objects.filter(user=user)
+        .annotate(sum=Sum("item__cost"))
+        .order_by("-item__cost")
     )
-    return dict(categories=categories, items=items, labels=labels, data=data)
+    return dict(categories=categories, items=items, chart=chart, sum=total)
 
 
 def beautify_chart_data(data):
@@ -47,7 +44,7 @@ def beautify_chart_data(data):
     if other:
         chart["Other"] = other
 
-    return chart.keys(), chart.values()
+    return chart, sum(chart.values())
 
 
 class CustomListView(ListView):

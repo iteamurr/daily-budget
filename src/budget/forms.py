@@ -27,13 +27,13 @@ class CategoryForm(forms.ModelForm):
         model = Category
         fields = ["name"]
 
-        widgets = {"name": forms.TextInput(attrs={"class": "form-control"})}
+        widgets = {"name": forms.TextInput(attrs={"class": "form__elem-input"})}
 
 
 class ItemForm(forms.ModelForm):
     time = forms.TimeField(
         widget=forms.TimeInput(
-            format="%H:%M", attrs={"class": "form-control", "type": "time"}
+            format="%H:%M", attrs={"class": "form__elem-input", "type": "time"}
         )
     )
 
@@ -59,8 +59,8 @@ class ItemForm(forms.ModelForm):
         fields = ["date", "time", "title", "cost", "category"]
 
         widgets = {
-            "date": forms.DateInput(attrs={"class": "form-control", "type": "date"}),
-            "title": forms.TextInput(attrs={"class": "form-control"}),
-            "cost": forms.TextInput(attrs={"class": "form-control"}),
-            "category": forms.Select(attrs={"class": "form-select"}),
+            "date": forms.DateInput(attrs={"class": "form__elem-input", "type": "date"}),
+            "title": forms.TextInput(attrs={"class": "form__elem-input"}),
+            "cost": forms.TextInput(attrs={"class": "form__elem-input"}),
+            "category": forms.Select(attrs={"class": "form__elem-input"}),
         }

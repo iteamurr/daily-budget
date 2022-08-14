@@ -2,74 +2,86 @@
 {% load humanize %}
 
 {% block content %}
-<div class="row">
-  <div class="col">
-    <div class="d-flex justify-content-between align-items-center">
-      <h1>Categories</h1>
-      <a class="btn btn-outline-secondary" href="{% url 'budget:categories' %}">
-        <span class="d-flex align-items-center material-symbols-outlined">
-          tune
-        </span>
-      </a>
+<div class="main-page">
+  <div class="container main-page-container">
+    <div class="categories-container">
+      <div class="categories-container__header">
+        <h1>Categories</h1>
+        <a class="settings categories-container__settings" href="{% url 'budget:categories' %}">
+          <span class="material-symbols-outlined">tune</span>
+        </a>
+      </div>
+      {% if lists %}
+        {% if lists.chart %}
+          <div class="categories-container__list">
+            {% for key, value in lists.chart.items %}
+              <div class="list-item">
+                <div class="list-item__title">{{ key|truncatechars:25 }}</div>
+                <span class="list-item__content money-badge">{{ value|floatformat:2|intcomma }} ₽</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p>Click on the <span class="material-symbols-outlined">
+            tune
+          </span> button to add category.</p>
+        {% endif %}
+      {% endif %}
     </div>
-    {% if lists %}
-      {% if lists.categories %}
-        <ul class="list-group">
-          {% for category in lists.categories %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              {{ category.name|truncatechars:25 }}
-              <span class="badge bg-primary">{{ category.num }}</span>
-            </li>
-          {% endfor %}
-        </ul>
-      {% else %}
+    <div class="chart-container">
+      <div class="chart-container__header">
+        <h1>Chart</h1>
+        <a class="settings chart-container__settings" href="#">
+          <span class="material-symbols-outlined">
+            tune
+          </span>
+        </a>
+      </div>
+      <div class="chart-container__chart">
+        {% if lists %}
+          {% if lists.chart %}
+            {% block chart %}
+              {% include './_blocks/chart.html' %}
+            {% endblock %}
+            <canvas class="chart"></canvas>
+          {% else %}
+            <p>Add some categories and items.</p>
+          {% endif %}
+        {% endif %}
+      </div>
+      <div class="chart-container__content">
+        <p>Total</p><div class="money-badge">{{ lists.sum|floatformat:2|intcomma }} ₽</div>
+      </div>
+    </div>
+    <div class="items-container">
+      <div class="items-container__header">
+        <h1>Items</h1>
+        <a class="settings items-container__settings" href="{% url 'budget:items' %}">
+          <span class="material-symbols-outlined">
+            tune
+          </span>
+        </a>
+      </div>
+      {% if lists %}
+        {% if lists.items %}
+          <div class="items-container__list">
+            {% for item in lists.items %}
+              <div class="list-item">
+                <div class="list-item__header">
+                  <div class="list-item__title">{{ item.title|truncatechars:23 }}</div>
+                  <small class="list-item__desc text-secondary">{{ item.category.name|truncatechars:25 }}</small>
+                </div>
+                <span class="list-item__content money-badge">{{ item.cost|intcomma }} ₽</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
         <p>Click on the <span class="material-symbols-outlined">
           tune
-        </span> button to add category.</p>
+        </span> button to add item.</p>
+        {% endif %}
       {% endif %}
-    {% endif %}
-  </div>
-  <div class="col">
-    <div class="d-flex justify-content-between align-items-center">
-      <h1>Items</h1>
-      <a class="btn btn-outline-secondary" href="{% url 'budget:items' %}">
-        <span class="d-flex align-items-center material-symbols-outlined">
-          tune
-        </span>
-      </a>
     </div>
-    {% if lists %}
-      {% if lists.items %}
-        <ul class="list-group">
-          {% for item in lists.items %}
-            <li class="list-group-item d-flex justify-content-between align-items-center">
-              <div class="row">
-                <div class="col-12">{{ item.title|truncatechars:23 }}</div>
-                <small class="col-12 text-secondary">{{ item.category.name|truncatechars:25 }}</small>
-              </div>
-              <span class="badge bg-success">{{ item.cost|intcomma }} ₽</span>
-            </li>
-          {% endfor %}
-        </ul>
-      {% else %}
-      <p>Click on the <span class="material-symbols-outlined">
-        tune
-      </span> button to add item.</p>
-      {% endif %}
-    {% endif %}
-  </div>
-  <div class="col">
-    <h1>Chart</h1>
-    {% if lists %}
-      {% if lists.labels and lists.data %}
-        {% block chart %}
-          {% include './_blocks/chart.html' %}
-        {% endblock %}
-        <canvas class="chart"></canvas>
-      {% else %}
-        <p>Add some categories and items.</p>
-      {% endif %}
-    {% endif %}
   </div>
 </div>
 {% endblock %}
