@@ -9,7 +9,7 @@ class Category(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
+        self.slug = slugify(self.name, allow_unicode=True)
         super().save(*args, **kwargs)
 
     def __str__(self) -> str:

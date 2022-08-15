@@ -17,7 +17,7 @@ class CategoryForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(CategoryForm, self).clean()
 
-        slug = slugify(cleaned_data.get("name"))
+        slug = slugify(cleaned_data.get("name"), allow_unicode=True)
         exists = self.fields["name"].queryset.filter(slug=slug).exists()
 
         if exists:
@@ -59,7 +59,9 @@ class ItemForm(forms.ModelForm):
         fields = ["date", "time", "title", "cost", "category"]
 
         widgets = {
-            "date": forms.DateInput(attrs={"class": "form__elem-input", "type": "date"}),
+            "date": forms.DateInput(
+                attrs={"class": "form__elem-input", "type": "date"}
+            ),
             "title": forms.TextInput(attrs={"class": "form__elem-input"}),
             "cost": forms.TextInput(attrs={"class": "form__elem-input"}),
             "category": forms.Select(attrs={"class": "form__elem-input"}),

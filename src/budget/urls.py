@@ -17,12 +17,12 @@ urlpatterns = [
     path("categories/", CategoriesView.as_view(), name="categories"),
     path("categories/add/", AddCategoryView.as_view(), name="add_category"),
     path(
-        "categories/edit/<slug:slug>",
+        "categories/edit/<str:slug>",
         CategoryEditView.as_view(),
         name="edit_category",
     ),
     path(
-        "categories/delete/<slug:slug>",
+        "categories/delete/<str:slug>",
         CategoryDeleteView.as_view(),
         name="delete_category",
     ),

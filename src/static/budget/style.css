@@ -254,6 +254,16 @@ h2 {
   margin: 10px;
 }
 
+.categories-container {
+  order: 0;
+}
+.items-container {
+  order: 2;
+}
+.chart-container {
+  order: 1;
+}
+
 .categories-container,
 .items-container,
 .chart-container {
