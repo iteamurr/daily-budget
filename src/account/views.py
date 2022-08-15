@@ -1,8 +1,16 @@
 from django.views.generic import CreateView
 from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 
 from .forms import CreateUserForm, UserLoginForm
+
+
+def signin_view(request):
+    if request.user.is_authenticated:
+        return redirect("budget/")
+    else:
+        return redirect("login/")
 
 
 class CreateAccountView(CreateView):
@@ -14,6 +22,7 @@ class CreateAccountView(CreateView):
 class LoginAccountView(LoginView):
     form_class = UserLoginForm
     next_page: str = "/budget/"
+    redirect_authenticated_user: bool = True
     template_name: str = "account/login.html"
 
 
