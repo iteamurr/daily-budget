@@ -1,0 +1,16 @@
+{% extends 'budget/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="error-page">
+  <div class="container form-container">
+    <div class="form-container__picture">
+      <img src="{% static 'budget/images/svg/scenes/error.svg' %}">
+    </div>
+    <div class="form-container__content">
+      <h1>Server Error</h1>
+      <p>Looks like there's been some kind of error...</P>
+    </div>
+  </div>
+</div>
+{% endblock %}

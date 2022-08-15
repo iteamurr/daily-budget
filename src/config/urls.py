@@ -12,3 +12,4 @@ urlpatterns = [
 ]
 
 handler404 = "config.views.page_not_found_view"
+handler500 = "config.views.server_error_view"
