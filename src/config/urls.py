@@ -1,4 +1,4 @@
-"""config URL Configuration
+"""URL Configuration
 """
 from django.contrib import admin
 from django.urls import include, path
@@ -10,3 +10,5 @@ urlpatterns = [
     path("", include("django.contrib.auth.urls")),
     path("budget/", include("budget.urls")),
 ]
+
+handler404 = "config.views.page_not_found_view"
