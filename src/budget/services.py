@@ -32,12 +32,10 @@ def beautify_chart_data(data):
     for category in data:
         if category.sum is None:
             continue
-        if len(chart) > 8:
-            other += float(category.sum)
-            continue
-
-        if category.name in chart:
+        elif category.name in chart:
             chart[category.name] += float(category.sum)
+        elif len(chart) > 8:
+            other += float(category.sum)
         else:
             chart[category.name] = float(category.sum)
 

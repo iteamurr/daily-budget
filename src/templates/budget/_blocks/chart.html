@@ -9,7 +9,7 @@
     var myChart = new Chart(ctx, {
       type: "doughnut",
       data: {
-        labels: [{% for label in lists.chart.keys %} "{{ label }}", {% endfor %}],
+        labels: [{% for label in lists.chart.keys %} "{{ label|safe }}", {% endfor %}],
         datasets: [
           {
             label: "# of items",
