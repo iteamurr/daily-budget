@@ -34,8 +34,7 @@ class CategoriesView(LoginRequiredMixin, CustomListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = self.get_filtered_and_paginated_data(context)
-        return context
+        return self.get_filtered_and_paginated_data(context)
 
     def get_queryset(self):
         queryset = (
@@ -74,8 +73,7 @@ class CategoryEditView(LoginRequiredMixin, UpdateView):
     login_url: str = "/login/"
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(user=self.request.user)
-        return queryset
+        return super().get_queryset().filter(user=self.request.user)
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -97,8 +95,7 @@ class CategoryDeleteView(LoginRequiredMixin, DeleteView):
         return context
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(user=self.request.user)
-        return queryset
+        return super().get_queryset().filter(user=self.request.user)
 
 
 class ItemsView(LoginRequiredMixin, CustomListView):
@@ -111,17 +108,14 @@ class ItemsView(LoginRequiredMixin, CustomListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context = self.get_filtered_and_paginated_data(context)
-        return context
+        return self.get_filtered_and_paginated_data(context)
 
     def get_queryset(self):
-        queryset = (
-            super().get_queryset().filter(user=self.request.user).order_by("-date")
-        )
-        return queryset
+        return super().get_queryset().filter(user=self.request.user).order_by("-date")
 
 
 class AddItemView(LoginRequiredMixin, CreateView):
+    model = Item
     form_class = ItemForm
     template_name: str = "budget/item/new_item.html"
     success_url: str = "/budget/items/"
@@ -158,5 +152,4 @@ class ItemDeleteView(LoginRequiredMixin, DeleteView):
     login_url: str = "/login/"
 
     def get_queryset(self):
-        queryset = super().get_queryset().filter(user=self.request.user)
-        return queryset
+        return super().get_queryset().filter(user=self.request.user)

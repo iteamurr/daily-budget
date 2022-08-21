@@ -1,7 +1,8 @@
 from datetime import datetime
+
 from django import forms
-from django.core.exceptions import ValidationError
 from django.utils.text import slugify
+from django.core.exceptions import ValidationError
 
 from .models import Category
 from .models import Item
@@ -10,7 +11,7 @@ from .models import Item
 class CategoryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user")
-        super(CategoryForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields["name"].queryset = Category.objects.filter(user=self.user)
 
@@ -39,14 +40,14 @@ class ItemForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop("user")
-        super(ItemForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
 
         self.fields["category"].queryset = Category.objects.filter(user=self.user)
         if "instance" in kwargs and kwargs["instance"]:
             self.fields["time"].initial = kwargs["instance"].date.time()
 
     def save(self, commit=True):
-        item = super(ItemForm, self).save(commit=False)
+        item = super().save(commit=False)
         item.date = datetime.combine(
             self.cleaned_data["date"], self.cleaned_data["time"]
         )

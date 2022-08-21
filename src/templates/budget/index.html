@@ -7,7 +7,7 @@
     <div class="categories-container">
       <div class="categories-container__header">
         <h1>Categories</h1>
-        <a class="settings categories-container__settings" href="{% url 'budget:categories' %}">
+        <a class="settings-btn" href="{% url 'budget:categories' %}">
           <span class="material-symbols-outlined">tune</span>
         </a>
       </div>
@@ -31,11 +31,6 @@
     <div class="chart-container">
       <div class="chart-container__header">
         <h1>Chart</h1>
-        <a class="settings chart-container__settings" href="#">
-          <span class="material-symbols-outlined">
-            tune
-          </span>
-        </a>
       </div>
       <div class="chart-container__chart">
         {% if lists %}
@@ -56,7 +51,7 @@
     <div class="items-container">
       <div class="items-container__header">
         <h1>Items</h1>
-        <a class="settings items-container__settings" href="{% url 'budget:items' %}">
+        <a class="settings-btn" href="{% url 'budget:items' %}">
           <span class="material-symbols-outlined">
             tune
           </span>

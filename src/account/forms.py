@@ -1,37 +1,33 @@
 from django import forms
-from django.contrib.auth.forms import (
-    UserCreationForm,
-    AuthenticationForm,
-    UsernameField,
-)
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import UsernameField
 
 
 class CreateUserForm(UserCreationForm):
-    def __init__(self, *args, **kwargs):
-        super(CreateUserForm, self).__init__(*args, **kwargs)
-
     username = UsernameField(
         widget=forms.TextInput(attrs={"class": "form__elem-input"})
     )
     password1 = forms.CharField(
         label="Password",
-        widget=forms.PasswordInput(attrs={"class": "form__elem-input"}),
+        widget=forms.PasswordInput(
+            attrs={"class": "form__elem-input", "autocomplete": "new-password"}
+        ),
     )
     password2 = forms.CharField(
         label="Password confirmation",
-        widget=forms.PasswordInput(attrs={"class": "form__elem-input"}),
+        widget=forms.PasswordInput(
+            attrs={"class": "form__elem-input", "autocomplete": "new-password"}
+        ),
     )
 
 
 class UserLoginForm(AuthenticationForm):
-    def __init__(self, *args, **kwargs):
-        super(UserLoginForm, self).__init__(*args, **kwargs)
-
     username = UsernameField(
-        widget=forms.TextInput(
-            attrs={"class": "form__elem-input", "autofocus": True}
-        )
+        widget=forms.TextInput(attrs={"class": "form__elem-input", "autofocus": True})
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(attrs={"class": "form__elem-input"})
+        widget=forms.PasswordInput(
+            attrs={"class": "form__elem-input", "autocomplete": "current-password"}
+        )
     )

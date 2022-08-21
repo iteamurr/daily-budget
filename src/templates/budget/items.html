@@ -88,7 +88,7 @@
           <div class="items-table__col-cost">{{ item.cost|intcomma }} ₽</div>
           <div class="items-table__col-category">{{ item.category|truncatechars:25 }}</div>
           <div class="items-table__col-edit">
-            <a class="settings" href="{% url 'budget:edit_item' item.pk %}">
+            <a class="settings-btn" href="{% url 'budget:edit_item' item.pk %}">
               <span class="material-symbols-outlined">edit</span>
             </a>
           </div>
