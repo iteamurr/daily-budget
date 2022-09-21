@@ -1,7 +1,5 @@
 <p align="center">
-  <a href="https://my-daily-budget.herokuapp.com">
-    <img src="https://raw.github.com/iteamurr/daily-budget/assets/example.png" width="888" style="max-width:100%;" alt="Daily Budget"/>
-  </a>
+  <img src="https://raw.github.com/iteamurr/daily-budget/assets/example.png" width="888" style="max-width:100%;" alt="Daily Budget"/>
 </p>
 <p align="center">
   <a href="https://my-daily-budget.herokuapp.com">
@@ -13,3 +11,14 @@
 </p>
 <h2>About Daily Budget</h2>
 <p>App to keep track of your daily expenses.</p>
+<h2>More Screenshots</h2>
+<p align="center">
+  <figure>
+    <img src="https://raw.github.com/iteamurr/daily-budget/assets/pic_1.png" width="888" style="max-width:100%;" alt="Daily Budget Categories"/>
+    <figcaption>DailyBudget: categories page.</figcaption>
+  </figure>
+  <figure>
+    <img src="https://raw.github.com/iteamurr/daily-budget/assets/pic_2.png" width="888" style="max-width:100%;" alt="Daily Budget Add Item"/>
+    <figcaption>DailyBudget: the process of creating a new item.</figcaption>
+  </figure>
+</p>
